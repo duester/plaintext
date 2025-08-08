@@ -16,7 +16,7 @@ object plaintext extends ScalaModule, SonatypeCentralPublishModule {
     mvn"com.lihaoyi::fastparse:3.1.1"
   )
 
-  object test extends ScalaTests with TestModule.ZioTest {
+  object test extends ScalaTests, TestModule.ZioTest {
     def mvnDeps = Seq(
       mvn"dev.zio::zio-test:2.1.20"
     )
