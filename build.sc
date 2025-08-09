@@ -7,7 +7,7 @@ import mill.scalalib.publish.*
 object plaintext extends ScalaModule, SonatypeCentralPublishModule {
   def scalaVersion = "3.7.1"
 
-  def publishVersion = "0.0.1-SNAPSHOT"
+  def publishVersion = "0.0.2-SNAPSHOT"
 
   def repositories = Seq("https://central.sonatype.com/repository/maven-snapshots")
 
