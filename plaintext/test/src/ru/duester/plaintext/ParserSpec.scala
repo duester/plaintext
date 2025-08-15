@@ -7,7 +7,7 @@ import zio.test.*
 
 object ParserSpec extends ZIOSpecDefault:
   def spec: Spec[TestEnvironment, Any] =
-    suite("test parser")(
+    suite("ParserSpec")(
       test("multiple paragraphs"):
         val expected = PlainTextDocument(
           List(
@@ -16,17 +16,23 @@ object ParserSpec extends ZIOSpecDefault:
             Paragraph("Third paragraph")
           )
         )
-        assertZIO(Parser.parse(Data.multiParagraphs))(
-          Assertion.equalTo(expected)
-        )
+        for {
+          parsed <- Parser.parse(Data.multiParagraphs)
+        } yield assert(parsed)(Assertion.equalTo(expected))
       ,
       test("single paragraph"):
         val expected = PlainTextDocument(
           List(Paragraph("Hello world!"))
         )
-        assertZIO(Parser.parse(Data.singleParagraph))(
-          Assertion.equalTo(expected)
-        )
+        for {
+          parsed <- Parser.parse(Data.singleParagraph)
+        } yield assert(parsed)(Assertion.equalTo(expected))
+      ,
+      test("empty document"):
+        val expected = PlainTextDocument()
+        for {
+          parsed <- Parser.parse("")
+        } yield assert(parsed)(Assertion.equalTo(expected))
     )
 
 object Data:

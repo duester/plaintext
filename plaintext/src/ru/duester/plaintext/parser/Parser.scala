@@ -10,15 +10,22 @@ import zio.ZIO
 
 import NoWhitespace.*
 
+/** Parser for plain text document
+  */
 object Parser:
-  def paragraph[$: P]: P[Paragraph] =
+  private def paragraph[$: P]: P[Paragraph] =
     P(CharsWhile(_ != '\n', min = 0).!.map(_.trim())).map(Paragraph(_))
 
-  def document[$: P]: P[PlainTextDocument] =
+  private def document[$: P]: P[PlainTextDocument] =
     P(paragraph.rep(sep = "\n") ~ End).map { case paragraphs =>
       PlainTextDocument(paragraphs.filter(_.text.nonEmpty).toList)
     }
 
+  /** Parse plain text document
+    *
+    * @param text
+    *   text to parse
+    */
   def parse(text: String): IO[String, PlainTextDocument] =
     fastparse.parse(text, { case given P[_] => document }) match
       case Success(document, _) => ZIO.succeed(document)
