@@ -9,8 +9,6 @@ object plaintext extends ScalaModule, SonatypeCentralPublishModule {
 
   def publishVersion = "0.1.0"
 
-  def repositories = Seq("https://central.sonatype.com/repository/maven-snapshots")
-
   def mvnDeps = Seq(
     mvn"dev.zio::zio:2.1.20",
     mvn"com.lihaoyi::fastparse:3.1.1"
